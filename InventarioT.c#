@@ -1,36 +1,45 @@
-// See https://aka.ms/new-console-template for more information
 using System;
-using System.Diagnostics.CodeAnalysis;
-using System.Transactions;
+
 class Inventario
 {
     static string[] nombres = { "Leche", "Pan", "Agua", "Arroz", "Azucar" };
     static double[] precios = { 3500, 1200, 1500, 4200, 2000 };
     static int[] stocks = { 20, 30, 15, 10, 25 };
     static double totalVentas = 0;
-    
+
     static void VerInventario()
     {
-        Console.WriteLine("=== INVENTARIO ===");
-        for(int i = 0; i < nombres.Length; i++)
-            Console.WriteLine($"{i+1}. {nombres[i]}" + $"${precios[i]} stock:{stocks[i]}");
+        Console.WriteLine("\n=== INVENTARIO ===");
+        for (int i = 0; i < nombres.Length; i++)
+        {
+            Console.WriteLine($"{i + 1}. {nombres[i]} - Precio: ${precios[i]} - Stock: {stocks[i]}");
+        }
     }
-    static bool Vender(int idx,int cant)
+
+    static bool Vender(int idx, int cant)
     {
-        if (stocks[idx] < cant) return false;
+        if (stocks[idx] < cant)
+            return false;
+
         stocks[idx] -= cant;
         totalVentas += precios[idx] * cant;
         return true;
     }
-    static void main()
+
+    static void Main()
     {
-        Console.WriteLine("Menu");
-        Console.WriteLine("1.Ver inventario");
-        Console.WriteLine("2.Vender Productos");
-        Console.WriteLine("3.Ver total de ventas");
-        Console.WriteLine("4.Salir");
-         Console.Write("Seleccione una opcion: ");
-            opcion = int.Parse(Console.ReadLine());
+        int opcion;
+
+        do
+        {
+            Console.WriteLine("\n===== MENU =====");
+            Console.WriteLine("1. Ver inventario");
+            Console.WriteLine("2. Vender productos");
+            Console.WriteLine("3. Ver total de ventas");
+            Console.WriteLine("4. Salir");
+            Console.Write("Seleccione una opcion: ");
+
+            opcion = Convert.ToInt32(Console.ReadLine());
 
             switch (opcion)
             {
@@ -40,27 +49,34 @@ class Inventario
 
                 case 2:
                     VerInventario();
+
                     Console.Write("Seleccione el numero del producto: ");
-                    int idx = int.Parse(Console.ReadLine()) - 1;
+                    int idx = Convert.ToInt32(Console.ReadLine()) - 1;
 
-                    Console.Write("Cantidad a vender: ");
-                    int cant = int.Parse(Console.ReadLine());
-
-                    if (idx >= 0 && idx < nombres.Length)
-                    {
-                        if (Vender(idx, cant))
-                            Console.WriteLine("Venta realizada con exito.");
-                        else
-                            Console.WriteLine("Stock insuficiente.");
-                    }
-                    else
+                    if (idx < 0 || idx >= nombres.Length)
                     {
                         Console.WriteLine("Producto invalido.");
+                        break;
                     }
+
+                    Console.Write("Cantidad a vender: ");
+                    int cant = Convert.ToInt32(Console.ReadLine());
+
+                    if (cant <= 0)
+                    {
+                        Console.WriteLine("Cantidad invalida.");
+                        break;
+                    }
+
+                    if (Vender(idx, cant))
+                        Console.WriteLine("Venta realizada con exito.");
+                    else
+                        Console.WriteLine("Stock insuficiente.");
+
                     break;
 
                 case 3:
-                    Console.WriteLine($"Total de ventas: ${TotalVentas}");
+                    Console.WriteLine($"\nTotal de ventas: ${totalVentas}");
                     break;
 
                 case 4:
@@ -72,9 +88,7 @@ class Inventario
                     break;
             }
 
-        } while (opcion != 4)
-
+        } while (opcion != 4);
     }
-    // Main: do-while con switch de menu
-}
+} 
 
