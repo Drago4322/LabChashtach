@@ -1,0 +1,38 @@
+using System;
+
+public class Libro{
+    
+    public string Titulo;
+    public string Autor;
+    public int Paginas;
+    
+    public Libro(string titulo,string autor, int paginas){
+        Titulo = titulo;
+        Autor = autor;
+        Paginas = paginas;
+    }
+    public void MostrarInfo(){
+        Console.WriteLine($"El libro {Titulo} de {Autor} tiene {Paginas} paginas");
+    }
+    public bool EsLargo(){
+        if (Paginas>=300){
+            Console.WriteLine("Este libro tiene mas de 300 paginas");
+            Console.WriteLine(true);
+            return true;
+        }
+        else{
+            Console.WriteLine("Este libro tiene menos de 300 paginas");
+            Console.WriteLine(false);
+            return false;
+        }
+    }
+
+    static void Main(){
+        Libro p = new Libro("cien anos de soledad","Gabriel Garcia Marquez",700);
+        p.MostrarInfo();
+        p.EsLargo();
+        Libro a = new Libro("El perfume","Bruno Inciarte",200);
+        a.MostrarInfo();
+        a.EsLargo();
+    }
+}
