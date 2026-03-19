@@ -1,0 +1,36 @@
+using System;
+
+namespace CalculadorTriangulos
+{
+    class Program
+    {
+        static void Main()
+        {
+            Random rnd = new Random();
+            
+            for (int i = 1; i <= 1000; i++)
+            {
+                double a = rnd.Next(10, 50);
+                double b = rnd.Next(10, 50);
+                double c = rnd.Next((int)Math.Abs(a - b) + 1, (int)(a + b));
+
+                double angA = Calcular(a, b, c);
+                double angB = Calcular(b, a, c);
+                double angC = 180 - angA - angB;
+
+                if (i <= 5 || i > 995)
+                {
+                    Console.WriteLine($"T{i:000}: Lados({a},{b},{c}) -> Ángulos: {angA:F1}°, {angB:F1}°, {angC:F1}°");
+                }
+                else if (i == 6) Console.WriteLine("...");
+            }
+        }
+
+        static double Calcular(double a, double b, double c)
+        {
+            double res = (b * b + c * c - a * a) / (2 * b * c);
+            return Math.Acos(res) * (180.0 / Math.PI);
+        }
+    }
+}
+
